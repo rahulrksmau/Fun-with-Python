@@ -1,20 +1,20 @@
-# from django.http import HttpResponse
-from django.shortcuts import render
 
-# import datetime
+{% block book_active %}active{% endblock %}
 
-"""
-def home(request):
-    now = datetime.datetime.now()
-    html = "<html><body>It is now %s.</body></html>" % now
-    return HttpResponse(html)
-"""
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Raspberry</title>
+</head>
+<body>
 
+<h4>LED Index</h4>
+<form action="/led" method="get">
+ <input type="radio" value="2" name="led" size="1"/><span>Red</span>
+ <input type="radio" value="1" name="led" size="1"/><span>Yellow</span>
+ <input type="radio" value="0" name="led" size="1"/><span>Green</span>
+ <input type="submit" class="btn" value="Glow" name="mybtn">
+</form>
 
-def req_page(request):
-    return render(request, 'index.html', {'name': 'raspberry Pi sender'})
-
-
-def led_glow(request):
-    print ("response", request.GET.get('led'))
-    return render(request, 'index.html', {'name': 'raspberry Pi sender'})
+</body>
+</html>
