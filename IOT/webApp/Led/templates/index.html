@@ -1,19 +1,177 @@
-{% block book_active %}active{% endblock %}
+<!DOCTYPE html>
+<html>
 
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Raspberry</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>LED Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type="text/css">
+        #red {
+            background: #650c0c;
+            background-size: 5px 5px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            float: right;
+
+        }
+
+        #yellow {
+            background: #585802;
+            background-size: 5px 5px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            top: 145px;
+            left: 35px;
+            float: right;
+        }
+
+        #green {
+            background: #0b2b0b;
+            background-size: 5px 5px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            top: 270px;
+            left: 35px;
+            float: right;
+        }
+
+        .big-box {
+            height: 600px;
+            width: 400px;
+        }
+
+        .box {
+            height: 200px;
+            width: 300px;
+
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            vertical-align: center;
+        }
+
+        .switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+
+        }
+
+        input:checked+.slider {
+            background-color: #2196F3;
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked+.slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
+    <script type="text/javascript">
+        function chkBoxChange(chkBox) {
+            let url = "http://localhost:5000/led/?led=" + chkBox.id;
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () { XhrDone(xhttp, chkBox); };
+            xhttp.open("GET", url, true);
+            xhttp.send();
+        }
+        function XhrDone(objXhr, chkBox) {
+            if (objXhr.readyState == 4 && objXhr.status == 200) {
+                if (chkBox.id == "0") {
+                    document.getElementById("green").style.backgroundColor = chkBox.checked ? '#2fbd2f' : '#0b2b0b';
+                }
+                else if (chkBox.id == "1") {
+                    document.getElementById("red").style.backgroundColor = chkBox.checked ? '#fb0404' : '#0b2b0b';
+                }
+                else if (chkBox.id == "2") {
+                    document.getElementById("yellow").style.backgroundColor = chkBox.checked ? '#f9f924' : '#0b2b0b';
+                }
+            }
+        }
+    </script>
 </head>
+
 <body>
+    <div class="big-box">
+        <div class="small-left">
+            <div data-role="page">
+                <div data-role="main" class="ui-content">
+                    <form method="post">
+                        <div class="box">
+                            <div style="vertical-align: middle">
+                                <label class="switch">
+                                    <input type="checkbox" id="1" onclick="chkBoxChange(this)">
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                            <div id="red"></div>
+                            <br>
+                        </div>
+                        <div class="box">
+                            <label class="switch">
+                                <input type="checkbox" id="2" onclick="chkBoxChange(this)">
+                                <span class="slider round"></span>
+                            </label>
+                            <div id="yellow"></div>
+                            <br>
+                        </div>
+                        <div class="box">
+                            <label class="switch">
+                                <input type="checkbox" id="0" onclick="chkBoxChange(this)">
+                                <span class="slider round"></span>
+                            </label>
+                            <div id="green"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
-<h4>LED Index</h4>
-<form action="/led" method="get">
- <input type="radio" value="1" name="led" size="1"/><span>Red</span>
- <input type="radio" value="2" name="led" size="1"/><span>Yellow</span>
- <input type="radio" value="0" name="led" size="1"/><span>Green</span>
- <input type="submit" class="btn" value="Glow" name="mybtn">
-</form>
-
+        </div>
+    </div>
 </body>
+
 </html>
